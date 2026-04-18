@@ -2,32 +2,23 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'educase-popx-user';
 
-const defaultUser = {
-  fullName: 'Marry Doe',
-  phoneNumber: 'Marry Doe',
-  email: 'Marry@Gmail.Com',
-  password: 'Marry Doe',
-  companyName: 'Marry Doe',
-  isAgency: true,
-};
-
 const UserContext = createContext(null);
 
 function getStoredUser() {
   if (typeof window === 'undefined') {
-    return defaultUser;
+    return null;
   }
 
   const rawUser = window.localStorage.getItem(STORAGE_KEY);
 
   if (!rawUser) {
-    return defaultUser;
+    return null;
   }
 
   try {
-    return { ...defaultUser, ...JSON.parse(rawUser) };
+    return JSON.parse(rawUser);
   } catch {
-    return defaultUser;
+    return null;
   }
 }
 
@@ -35,21 +26,26 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(getStoredUser);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    if (user) {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    } else {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
   }, [user]);
 
   const register = (formData) => {
-    setUser({
-      ...defaultUser,
-      ...formData,
-    });
+    setUser(formData);
   };
 
   const login = (credentials) => {
     setUser((currentUser) => ({
       ...currentUser,
-      email: credentials.email || currentUser.email,
+      email: credentials.email,
     }));
+  };
+
+  const logout = () => {
+    setUser(null);
   };
 
   return (
@@ -58,6 +54,7 @@ export function UserProvider({ children }) {
         user,
         login,
         register,
+        logout,
       }}
     >
       {children}

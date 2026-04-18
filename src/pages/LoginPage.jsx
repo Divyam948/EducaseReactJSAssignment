@@ -24,9 +24,7 @@ function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!isReady) {
-      return;
-    }
+    if (!isReady) return;
 
     login(formData);
     navigate('/account');
@@ -34,6 +32,15 @@ function LoginPage() {
 
   return (
     <PageShell className="screen--plain">
+
+      <button
+        type="button"
+        className="back-button"
+        onClick={() => navigate('/')}
+      >
+        ← Back
+      </button>
+
       <div className="content-column">
         <div className="intro-copy intro-copy--tight">
           <h1>

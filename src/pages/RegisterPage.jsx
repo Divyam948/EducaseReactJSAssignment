@@ -40,7 +40,17 @@ function RegisterPage() {
 
   return (
     <PageShell className="screen--plain">
+      
+      <button
+        type="button"
+        className="back-button"
+        onClick={() => navigate('/')}
+      >
+        ← Back
+      </button>
+
       <form className="content-column content-column--full" onSubmit={handleSubmit}>
+        
         <div className="intro-copy intro-copy--tight">
           <h1>
             Create your
@@ -64,7 +74,7 @@ function RegisterPage() {
             label="Phone number"
             value={formData.phoneNumber}
             onChange={handleFieldChange('phoneNumber')}
-            placeholder="Marry Doe"
+            placeholder="9876543210"
             required
           />
 
@@ -74,7 +84,7 @@ function RegisterPage() {
             type="email"
             value={formData.email}
             onChange={handleFieldChange('email')}
-            placeholder="Marry Doe"
+            placeholder="example@email.com"
             required
           />
 
@@ -84,7 +94,7 @@ function RegisterPage() {
             type="password"
             value={formData.password}
             onChange={handleFieldChange('password')}
-            placeholder="Marry Doe"
+            placeholder="Enter password"
             required
           />
 
@@ -93,7 +103,7 @@ function RegisterPage() {
             label="Company name"
             value={formData.companyName}
             onChange={handleFieldChange('companyName')}
-            placeholder="Marry Doe"
+            placeholder="Your company"
           />
 
           <fieldset className="radio-group">

@@ -1,14 +1,34 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import avatarPortrait from '../assets/avatar-portrait.svg';
 import PageShell from '../components/PageShell';
 import { useUser } from '../context/UserContext';
 
 function AccountPage() {
-  const { user } = useUser();
+  const navigate = useNavigate();
+  const { user, logout } = useUser();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
+  if (!user) return null;
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <PageShell className="screen--account">
+      
       <header className="account-header">
         <h1>Account Settings</h1>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
       </header>
 
       <div className="account-card">
